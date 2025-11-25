@@ -58,6 +58,7 @@
             loadPointsToolStripMenuItem = new ToolStripMenuItem();
             loadTextureToolStripMenuItem = new ToolStripMenuItem();
             loadNormalVectorsMapToolStripMenuItem = new ToolStripMenuItem();
+            resetNormalMapButton = new Button();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -87,6 +88,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(resetNormalMapButton);
             splitContainer1.Panel2.Controls.Add(stopAnimationButton);
             splitContainer1.Panel2.Controls.Add(startAnimationButton);
             splitContainer1.Panel2.Controls.Add(changeObjectColorButton);
@@ -385,6 +387,15 @@
             loadNormalVectorsMapToolStripMenuItem.Text = "Load Normal Vectors Map";
             loadNormalVectorsMapToolStripMenuItem.Click += LoadNormalVectorsMapToolStripMenuItem_Click;
             // 
+            // resetNormalMapButton
+            // 
+            resetNormalMapButton.Location = new Point(186, 480);
+            resetNormalMapButton.Name = "resetNormalMapButton";
+            resetNormalMapButton.Size = new Size(94, 45);
+            resetNormalMapButton.TabIndex = 27;
+            resetNormalMapButton.Text = "Reset Normal Map";
+            resetNormalMapButton.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -448,5 +459,6 @@
         private Button startAnimationButton;
         private ToolStripMenuItem loadTextureToolStripMenuItem;
         private ToolStripMenuItem loadNormalVectorsMapToolStripMenuItem;
+        private Button resetNormalMapButton;
     }
 }

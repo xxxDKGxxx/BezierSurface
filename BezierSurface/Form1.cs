@@ -1,6 +1,4 @@
 using BezierSurface.Core;
-using BezierSurface.Presentation;
-using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Numerics;
 using UVTextureType = BezierSurface.UVTexture.UVTexture;
@@ -116,6 +114,12 @@ public partial class Form1 : Form
 
         startAnimationButton.Click += (s, e) => _lightAnimator.Start();
         stopAnimationButton.Click += (s, e) => _lightAnimator.Stop();
+        resetNormalMapButton.Click += (s, e) =>
+        {
+            _normalMap?.Dispose();
+            _normalMap = null;
+            mainCanvas.Invalidate();
+        };
     }
 
     private void RotateSurface()
@@ -185,7 +189,7 @@ public partial class Form1 : Form
         var bitmap = new Bitmap(
             mainCanvas.Image.Width,
             mainCanvas.Image.Height,
-            PixelFormat.Format24bppRgb
+            PixelFormat.Format32bppArgb
         );
 
         var transform = graphics.Transform;
@@ -216,81 +220,6 @@ public partial class Form1 : Form
                 }
             }
         }
-
-        //using (var fastBitmap = new FastBitmap(bitmap))
-        //{
-        //    foreach (var triangle in _bezierMesh?.Triangles ?? [])
-        //    {
-        //        triangle.FillTriangle((x, y) =>
-        //        {
-        //            var pt = new PointF(x, y);
-        //            var pts = new PointF[] { pt };
-
-        //            transform.TransformPoints(pts);
-
-        //            pt = pts[0];
-
-        //            if (pt.X < 0 || pt.X >= bitmap.Width || pt.Y < 0 || pt.Y >= bitmap.Height)
-        //            {
-        //                return;
-        //            }
-
-        //            var normal = triangle.GetNormal(x, y);
-
-        //            if (_texture is not null || _normalMap is not null)
-        //            {
-        //                var (alpha, beta, gamma) = triangle.Baricentric(x, y);
-
-        //                var u = triangle.V1.U * alpha +
-        //                        triangle.V2.U * beta +
-        //                        triangle.V3.U * gamma;
-
-        //                var v = triangle.V1.V * alpha +
-        //                        triangle.V2.V * beta +
-        //                        triangle.V3.V * gamma;
-
-        //                if (_texture is not null)
-        //                {
-
-        //                    var texColor = _texture.GetColor(u, v);
-
-        //                    _surfaceColor = Color.FromArgb(texColor.R, texColor.G, texColor.B);
-        //                }
-
-        //                if (_normalMap is not null)
-        //                {
-        //                    var normalMapNormalVec = _normalMap.GetColor(u, v);
-
-        //                    var normalMapNormal = new Vector3(
-        //                        normalMapNormalVec.R / 255f * 2 - 1,
-        //                        normalMapNormalVec.G / 255f * 2 - 1,
-        //                        normalMapNormalVec.B / 255f * 2 - 1);
-
-        //                    normal = CustomMatrix.FromVectors(
-        //                        triangle.GetPu(x, y),
-        //                        triangle.GetPv(x, y),
-        //                        triangle.GetNormal(x, y)) * normalMapNormal;
-        //                }
-        //            }
-
-        //            var color = LambertLightAdjuster.AdjustLightIntensity(
-        //                new Vector3(_lightColor.R / 255f, _lightColor.G / 255f, _lightColor.B / 255f),
-        //                new Vector3(_surfaceColor.R / 255f, _surfaceColor.G / 255f, _surfaceColor.B / 255f),
-        //                _lightPos - triangle.GetFullPoint(x, y),
-        //                normal,
-        //                m,
-        //                kd,
-        //                ks) * 255;
-
-        //            fastBitmap.SetPixel(
-        //                (int)pt.X,
-        //                (int)pt.Y,
-        //                (byte)Math.Clamp((int)color.X, 0, 255),
-        //                (byte)Math.Clamp((int)color.Y, 0, 255),
-        //                (byte)Math.Clamp((int)color.Z, 0, 255));
-        //        });
-        //    }
-        //}
 
         var originalTransform = graphics.Transform;
 

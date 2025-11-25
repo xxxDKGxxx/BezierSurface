@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics;
 using System.Numerics;
 
@@ -28,7 +27,7 @@ public sealed class LightAnimator : IDisposable
         float initialRadius = 100f,
         float radialGrowthPerSecond = 0f,
         float angularSpeed = MathF.PI * 2f, // one revolution per second by default
-        int timerIntervalMs = 16)           // ~60 FPS
+        int timerIntervalMs = 32)           // ~60 FPS
     {
         _onUpdate = onUpdate ?? throw new ArgumentNullException(nameof(onUpdate));
         _centerXY = new Vector2(center.X, center.Y);
@@ -55,9 +54,6 @@ public sealed class LightAnimator : IDisposable
         _onUpdate(new Vector3(x, y, _z));
     }
 
-    /// <summary>
-    /// Start (or resume) the animation.
-    /// </summary>
     public void Start()
     {
         if (_timer.Enabled)
@@ -69,9 +65,6 @@ public sealed class LightAnimator : IDisposable
         _timer.Start();
     }
 
-    /// <summary>
-    /// Stop (pause) the animation.
-    /// </summary>
     public void Stop()
     {
         if (!_timer.Enabled)
@@ -80,12 +73,8 @@ public sealed class LightAnimator : IDisposable
         }
 
         _timer.Stop();
-        // do not reset stopwatch to allow resume; call Reset() to restart from zero
     }
 
-    /// <summary>
-    /// Reset internal time to zero (next Start begins from t=0).
-    /// </summary>
     public void Reset()
     {
         var wasRunning = _timer.Enabled;
@@ -97,25 +86,16 @@ public sealed class LightAnimator : IDisposable
         }
     }
 
-    /// <summary>
-    /// Replace spiral center (keeps current Z).
-    /// </summary>
     public void SetCenter(Vector2 centerXY)
     {
         _centerXY = centerXY;
     }
 
-    /// <summary>
-    /// Replace spiral center and Z.
-    /// </summary>
     public void SetCenter(Vector3 center)
     {
         _centerXY = new Vector2(center.X, center.Y);
     }
 
-    /// <summary>
-    /// Replace only Z coordinate (keeps XY center).
-    /// </summary>
     public void SetZ(float z)
     {
         _z = z;

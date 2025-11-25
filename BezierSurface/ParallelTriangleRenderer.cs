@@ -9,6 +9,8 @@ namespace BezierSurface;
 
 internal static class ParallelTriangleRenderer
 {
+    private static Color[,]? colorMap;
+
     public static Color[,] Render(
         List<Triangle> triangles,
         Matrix transform,
@@ -23,7 +25,18 @@ internal static class ParallelTriangleRenderer
         int width,
         int height)
     {
-        var result = new Color[width, height];
+        if (colorMap is not null &&
+            colorMap.GetLength(0) == width &&
+            colorMap.GetLength(1) == height)
+        {
+            Array.Clear(colorMap, 0, colorMap.Length);
+        }
+        else
+        {
+            colorMap = new Color[width, height];
+        }
+
+        var result = colorMap;
 
         var loopResult = Parallel.ForEach(triangles, triangle => triangle.FillTriangle((x, y) =>
             {
@@ -31,10 +44,14 @@ internal static class ParallelTriangleRenderer
                 var pts = new PointF[] { pt };
                 var localSurfaceColor = _surfaceColor;
 
-                lock (transform)
+                Matrix localTransform;
+
+                lock(transform)
                 {
-                    transform.TransformPoints(pts);
+                    localTransform = transform.Clone();
                 }
+                
+                localTransform.TransformPoints(pts);
 
                 pt = pts[0];
 

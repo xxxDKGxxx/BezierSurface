@@ -1,7 +1,13 @@
 ﻿namespace BezierSurface.UVTexture;
 
-internal sealed class UVTexture(IBitmap bitmap)
+internal sealed class UVTexture(IBitmap bitmap) : IDisposable
 {
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
+        bitmap.Dispose();
+    }
+
     public Color GetColor(float u, float v)
     {
         lock (this)
@@ -14,5 +20,10 @@ internal sealed class UVTexture(IBitmap bitmap)
 
             return bitmap.GetPixel(x, y);
         }
+    }
+
+    ~UVTexture()
+    {
+        Dispose();
     }
 }

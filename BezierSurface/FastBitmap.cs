@@ -54,4 +54,9 @@ public unsafe class FastBitmap : IDisposable, IBitmap
 
         return Color.FromArgb(r, g, b);
     }
+
+    ~FastBitmap()
+    {
+        Dispose();
+    }
 }
