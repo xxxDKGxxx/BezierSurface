@@ -8,9 +8,11 @@ public sealed class Vertex
     public Vector3 TangentU => _rotatedTangentU;
     public Vector3 TangentV => _rotatedTangentV;
     public Vector3 Normal => _rotatedNormal;
-    public Vector3 NotRotatedPoint { get; } = Vector3.Zero;
+    public Vector3 NotRotatedPoint { get; private set; } = Vector3.Zero;
     public float U { get; set; } = 0f;
     public float V { get; set; } = 0f;
+    private float? _lastAlpha = null;
+    private float? _lastBeta = null;
 
     private readonly Vector3 _tangentU = Vector3.Zero;
     private readonly Vector3 _tangentV = Vector3.Zero;
@@ -32,6 +34,19 @@ public sealed class Vertex
         _rotatedNormal = _normal;
     }
 
+    public void ChangePosition(Vector3 newPosition)
+    {
+        NotRotatedPoint = newPosition;
+
+        if (_lastAlpha is null || _lastBeta is null)
+        {
+            _rotatedPoint = NotRotatedPoint;
+            return;
+        }
+
+        Rotate(_lastAlpha.Value, _lastBeta.Value);
+    }
+
     public void Rotate(float alpha, float beta)
     {
         var rotationX = Matrix4x4.CreateRotationX(alpha);
@@ -42,5 +57,8 @@ public sealed class Vertex
         _rotatedTangentU = Vector3.Transform(_tangentU, rotation);
         _rotatedTangentV = Vector3.Transform(_tangentV, rotation);
         _rotatedNormal = Vector3.Cross(_rotatedTangentV, _rotatedTangentU); // U down, V right
+
+        _lastAlpha = alpha;
+        _lastBeta = beta;
     }
 }

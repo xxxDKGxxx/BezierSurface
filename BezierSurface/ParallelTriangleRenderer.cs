@@ -90,8 +90,8 @@ internal static class ParallelTriangleRenderer
                             normalMapNormalVec.B / 255f * 2 - 1);
 
                         normal = CustomMatrix.FromVectors(
-                            triangle.GetPu(x, y),
                             triangle.GetPv(x, y),
+                            triangle.GetPu(x, y),
                             triangle.GetNormal(x, y)) * normalMapNormal;
                     }
                 }

@@ -30,6 +30,13 @@
         {
             splitContainer1 = new SplitContainer();
             mainCanvas = new PictureBox();
+            vertexZNumericUpDown = new NumericUpDown();
+            vertexYNumericUpDown = new NumericUpDown();
+            vertexXNumericUpDown = new NumericUpDown();
+            label10 = new Label();
+            label9 = new Label();
+            label8 = new Label();
+            resetNormalMapButton = new Button();
             stopAnimationButton = new Button();
             startAnimationButton = new Button();
             changeObjectColorButton = new Button();
@@ -58,12 +65,14 @@
             loadPointsToolStripMenuItem = new ToolStripMenuItem();
             loadTextureToolStripMenuItem = new ToolStripMenuItem();
             loadNormalVectorsMapToolStripMenuItem = new ToolStripMenuItem();
-            resetNormalMapButton = new Button();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)mainCanvas).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)vertexZNumericUpDown).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)vertexYNumericUpDown).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)vertexXNumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)lightPosZnumericInput).BeginInit();
             ((System.ComponentModel.ISupportInitialize)mNumericInput).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ksNumericInput).BeginInit();
@@ -88,6 +97,12 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(vertexZNumericUpDown);
+            splitContainer1.Panel2.Controls.Add(vertexYNumericUpDown);
+            splitContainer1.Panel2.Controls.Add(vertexXNumericUpDown);
+            splitContainer1.Panel2.Controls.Add(label10);
+            splitContainer1.Panel2.Controls.Add(label9);
+            splitContainer1.Panel2.Controls.Add(label8);
             splitContainer1.Panel2.Controls.Add(resetNormalMapButton);
             splitContainer1.Panel2.Controls.Add(stopAnimationButton);
             splitContainer1.Panel2.Controls.Add(startAnimationButton);
@@ -114,7 +129,7 @@
             splitContainer1.Panel2.Controls.Add(zRotationTrackBar);
             splitContainer1.Panel2.Controls.Add(xRotationTrackBar);
             splitContainer1.Size = new Size(1184, 537);
-            splitContainer1.SplitterDistance = 888;
+            splitContainer1.SplitterDistance = 857;
             splitContainer1.TabIndex = 0;
             // 
             // mainCanvas
@@ -122,9 +137,72 @@
             mainCanvas.Dock = DockStyle.Fill;
             mainCanvas.Location = new Point(0, 0);
             mainCanvas.Name = "mainCanvas";
-            mainCanvas.Size = new Size(888, 537);
+            mainCanvas.Size = new Size(857, 537);
             mainCanvas.TabIndex = 0;
             mainCanvas.TabStop = false;
+            // 
+            // vertexZNumericUpDown
+            // 
+            vertexZNumericUpDown.Location = new Point(178, 286);
+            vertexZNumericUpDown.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            vertexZNumericUpDown.Minimum = new decimal(new int[] { 1000, 0, 0, int.MinValue });
+            vertexZNumericUpDown.Name = "vertexZNumericUpDown";
+            vertexZNumericUpDown.Size = new Size(120, 23);
+            vertexZNumericUpDown.TabIndex = 33;
+            // 
+            // vertexYNumericUpDown
+            // 
+            vertexYNumericUpDown.Location = new Point(178, 259);
+            vertexYNumericUpDown.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            vertexYNumericUpDown.Minimum = new decimal(new int[] { 1000, 0, 0, int.MinValue });
+            vertexYNumericUpDown.Name = "vertexYNumericUpDown";
+            vertexYNumericUpDown.Size = new Size(120, 23);
+            vertexYNumericUpDown.TabIndex = 32;
+            // 
+            // vertexXNumericUpDown
+            // 
+            vertexXNumericUpDown.Location = new Point(178, 231);
+            vertexXNumericUpDown.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            vertexXNumericUpDown.Minimum = new decimal(new int[] { 1000, 0, 0, int.MinValue });
+            vertexXNumericUpDown.Name = "vertexXNumericUpDown";
+            vertexXNumericUpDown.Size = new Size(120, 23);
+            vertexXNumericUpDown.TabIndex = 31;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(158, 288);
+            label10.Name = "label10";
+            label10.Size = new Size(14, 15);
+            label10.TabIndex = 30;
+            label10.Text = "Z";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(158, 263);
+            label9.Name = "label9";
+            label9.Size = new Size(14, 15);
+            label9.TabIndex = 29;
+            label9.Text = "Y";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(158, 239);
+            label8.Name = "label8";
+            label8.Size = new Size(14, 15);
+            label8.TabIndex = 28;
+            label8.Text = "X";
+            // 
+            // resetNormalMapButton
+            // 
+            resetNormalMapButton.Location = new Point(186, 480);
+            resetNormalMapButton.Name = "resetNormalMapButton";
+            resetNormalMapButton.Size = new Size(94, 45);
+            resetNormalMapButton.TabIndex = 27;
+            resetNormalMapButton.Text = "Reset Normal Map";
+            resetNormalMapButton.UseVisualStyleBackColor = true;
             // 
             // stopAnimationButton
             // 
@@ -387,15 +465,6 @@
             loadNormalVectorsMapToolStripMenuItem.Text = "Load Normal Vectors Map";
             loadNormalVectorsMapToolStripMenuItem.Click += LoadNormalVectorsMapToolStripMenuItem_Click;
             // 
-            // resetNormalMapButton
-            // 
-            resetNormalMapButton.Location = new Point(186, 480);
-            resetNormalMapButton.Name = "resetNormalMapButton";
-            resetNormalMapButton.Size = new Size(94, 45);
-            resetNormalMapButton.TabIndex = 27;
-            resetNormalMapButton.Text = "Reset Normal Map";
-            resetNormalMapButton.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -414,6 +483,9 @@
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)mainCanvas).EndInit();
+            ((System.ComponentModel.ISupportInitialize)vertexZNumericUpDown).EndInit();
+            ((System.ComponentModel.ISupportInitialize)vertexYNumericUpDown).EndInit();
+            ((System.ComponentModel.ISupportInitialize)vertexXNumericUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)lightPosZnumericInput).EndInit();
             ((System.ComponentModel.ISupportInitialize)mNumericInput).EndInit();
             ((System.ComponentModel.ISupportInitialize)ksNumericInput).EndInit();
@@ -460,5 +532,11 @@
         private ToolStripMenuItem loadTextureToolStripMenuItem;
         private ToolStripMenuItem loadNormalVectorsMapToolStripMenuItem;
         private Button resetNormalMapButton;
+        private NumericUpDown vertexZNumericUpDown;
+        private NumericUpDown vertexYNumericUpDown;
+        private NumericUpDown vertexXNumericUpDown;
+        private Label label10;
+        private Label label9;
+        private Label label8;
     }
 }

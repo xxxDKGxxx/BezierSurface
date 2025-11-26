@@ -33,4 +33,44 @@ public class Bezier(Vertex[,] controlPoints)
             }
         }
     }
+
+    public void ChangeVertexPosition(Vertex vertex, Vector3 newPosition)
+    {
+        for (var i = 0; i < ControlPoints.GetLength(0); i++)
+        {
+            for (var j = 0; j < ControlPoints.GetLength(1); j++)
+            {
+                if (ControlPoints[i, j] == vertex)
+                {
+                    ControlPoints[i, j].ChangePosition(newPosition);
+                    return;
+                }
+            }
+        }
+    }
+
+    public Vertex? GetNearestVertexTo(float x, float y, float disTol)
+    {
+        Vertex? nearestVertex = null;
+        var minDistanceSquared = float.MaxValue;
+
+        for (var i = 0; i < ControlPoints.GetLength(0); i++)
+        {
+            for (var j = 0; j < ControlPoints.GetLength(1); j++)
+            {
+                var vertex = ControlPoints[i, j];
+                var dx = vertex.Point.X - x;
+                var dy = vertex.Point.Y - y;
+                var distanceSquared = dx * dx + dy * dy;
+
+                if (distanceSquared < minDistanceSquared)
+                {
+                    minDistanceSquared = distanceSquared;
+                    nearestVertex = vertex;
+                }
+            }
+        }
+
+        return minDistanceSquared < disTol ? nearestVertex : null;
+    }
 }

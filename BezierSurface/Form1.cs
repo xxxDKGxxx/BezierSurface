@@ -9,6 +9,8 @@ public partial class Form1 : Form
 {
     private Bezier? _bezier;
     private BezierMesh? _bezierMesh;
+    private Vertex? _selectedVert = null;
+
     private readonly LightAnimator _lightAnimator;
 
     private UVTextureType? _texture;
@@ -34,6 +36,87 @@ public partial class Form1 : Form
 
         mainCanvas.Image = new Bitmap(mainCanvas.Width, mainCanvas.Height);
         mainCanvas.Paint += MainCanvas_Paint;
+
+        // Nowa funk
+        mainCanvas.Click += (s, e) =>
+        {
+            if (e is MouseEventArgs me)
+            {
+                var mousePoint = new Vector3(me.X - mainCanvas.Width / 2f, -(me.Y - mainCanvas.Height / 2f), 0);
+
+                if (_bezier is null)
+                {
+                    return;
+                }
+
+                var closestVertex = _bezier.GetNearestVertexTo(mousePoint.X, mousePoint.Y, 10.0f);
+
+                if (closestVertex is not null)
+                {
+                    _selectedVert = closestVertex;
+
+                    vertexXNumericUpDown.Value = (decimal)_selectedVert.NotRotatedPoint.X;
+                    vertexYNumericUpDown.Value = (decimal)_selectedVert.NotRotatedPoint.Y;
+                    vertexZNumericUpDown.Value = (decimal)_selectedVert.NotRotatedPoint.Z;
+                }
+                else
+                {
+                    _selectedVert = null;
+                    vertexXNumericUpDown.Value = 0;
+                    vertexYNumericUpDown.Value = 0;
+                    vertexZNumericUpDown.Value = 0;
+                }
+
+                mainCanvas.Invalidate();
+            }
+        };
+
+        vertexXNumericUpDown.ValueChanged += (s, e) =>
+        {
+            if (_selectedVert is null)
+            {
+                return;
+            }
+
+            var newPos = new Vector3(
+                (float)vertexXNumericUpDown.Value,
+                _selectedVert.NotRotatedPoint.Y,
+                _selectedVert.NotRotatedPoint.Z);
+
+            _bezier?.ChangeVertexPosition(_selectedVert, newPos);
+            _bezierMesh?.GenerateMesh(triangulationStepsTrackBar.Value);
+            RotateSurface();
+        };
+
+        vertexYNumericUpDown.ValueChanged += (s, e) =>
+        {
+            if (_selectedVert is null)
+            {
+                return;
+            }
+            var newPos = new Vector3(
+                _selectedVert.NotRotatedPoint.X,
+                (float)vertexYNumericUpDown.Value,
+                _selectedVert.NotRotatedPoint.Z);
+            _bezier?.ChangeVertexPosition(_selectedVert, newPos);
+            _bezierMesh?.GenerateMesh(triangulationStepsTrackBar.Value);
+            RotateSurface();
+        };
+
+        vertexZNumericUpDown.ValueChanged += (s, e) =>
+        {
+            if (_selectedVert is null)
+            {
+                return;
+            }
+            var newPos = new Vector3(
+                _selectedVert.NotRotatedPoint.X,
+                _selectedVert.NotRotatedPoint.Y,
+                (float)vertexZNumericUpDown.Value);
+            _bezier?.ChangeVertexPosition(_selectedVert, newPos);
+            _bezierMesh?.GenerateMesh(triangulationStepsTrackBar.Value);
+            RotateSurface();
+        };
 
         xRotationTrackBar.ValueChanged += (s, e) => RotateSurface();
 
@@ -265,7 +348,9 @@ public partial class Form1 : Form
                 var screenX = (int)point.Point.X;
                 var screenY = (int)point.Point.Y;
 
-                graphics.FillEllipse(Brushes.Red, screenX - 3, screenY - 3, 6, 6);
+                var brush = point == _selectedVert ? Brushes.Green : Brushes.Red;
+
+                graphics.FillEllipse(brush, screenX - 3, screenY - 3, 6, 6);
 
                 if (j < controlPointsGrid.GetLength(1) - 1)
                 {
