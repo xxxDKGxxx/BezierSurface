@@ -1,50 +1,83 @@
 # Bezier Surface Renderer
 
-A professional implementation of a Bezier surface rendering engine, developed for the Computer Graphics course at the Faculty of Mathematics and Information Science (MiNI), Warsaw University of Technology.
+A professional 3D Bezier surface rendering engine and interactive graphics application developed for the Computer Graphics course at the Faculty of Mathematics and Information Science (MiNI), Warsaw University of Technology (WUT).
 
-## Overview
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Platform](https://img.shields.io/badge/platform-Windows-0078d7.svg)
+![Framework](https://img.shields.io/badge/.NET-9.0--windows-512bd4.svg)
+![Language](https://img.shields.io/badge/language-C%23-239120.svg)
+![GUI](https://img.shields.io/badge/gui-Windows%20Forms-0078d7.svg)
 
-This project provides a robust environment for generating, manipulating, and rendering Bezier surfaces in real-time. It features a custom-built rendering pipeline that includes dynamic triangulation, advanced lighting models, and texture mapping.
+---
 
-## Features
+## 🚀 Overview
 
-### Surface Generation & Manipulation
-- **Bezier Surfaces:** Mathematical implementation of surfaces based on a grid of control points.
-- **Interactive Editing:** Real-time manipulation of control point positions via the UI or direct interaction.
-- **Dynamic Triangulation:** Adjustable mesh density to control the level of detail and performance.
-- **Transformations:** Support for surface rotation around the X and Z axes.
+**BezierSurface** provides a real-time environment for generating, evaluating, and shading bicubic Bézier surfaces. It features a custom software rendering pipeline with dynamic mesh triangulation, multi-threaded parallel triangle rasterization, Phong/Lambertian illumination models, animated light sources, UV texture mapping, and normal mapping.
 
-### Rendering & Lighting
-- **Lighting Model:** A hybrid model incorporating:
-  - **Lambertian Reflectance:** For diffuse surface coloring.
-  - **Phong Specular Highlights:** For realistic light reflections.
-- **Light Animation:** An animated light source that can orbit the surface, with adjustable height (Z-axis).
-- **Parallel Processing:** Highly optimized triangle rendering utilizing multi-core processing for fluid performance.
+---
 
-### Advanced Shading
-- **UV Texture Mapping:** Precise application of 2D textures onto the 3D surface.
-- **Normal Mapping:** Enhanced surface detail and realism through the application of normal maps to simulate complex geometry.
-- **Fast Bitmap Access:** Optimized pixel manipulation for low-latency rendering updates.
+## ✨ Features
 
-## Project Structure
+### 🔲 Surface Generation & Interactive Manipulation
+- **Bicubic Bézier Surfaces**: Mathematical evaluation of parametric surfaces based on a $4 \times 4$ grid of 3D control points.
+- **Control Point Editing**: Real-time manipulation of control point positions via interactive UI controls and direct scene interaction.
+- **Dynamic Triangulation Mesh**: Adjustable grid resolution and density ($N \times M$ division steps) to balance detail vs. performance.
+- **3D Surface Transformations**: Real-time rotations around X and Z axes, scaling, and translation.
 
-- **BezierSurface:** Main Windows Forms application handling the UI, user interaction, and high-level rendering logic.
-- **BezierSurface.Core:** Core mathematical library containing algorithms for Bezier surface calculation, mesh generation, and geometric primitives.
-- **BezierSurface.Presentation:** Specialized logic for polygon filling, light intensity adjustment, and shading calculations.
+### 💡 Lighting & Shading Model
+- **Hybrid Illumination**:
+  - **Lambertian Reflectance**: Diffuse surface color calculations based on normal vectors.
+  - **Phong Specular Highlights**: Realistic specular reflections and customizable shininess exponents.
+- **Animated Light Source**: Interactive light orbiting around the surface with adjustable height ($Z$-axis) and color.
+- **Parallel Multi-Core Rasterization**: Parallelized scanline algorithm for high-fps software rendering using `Parallel.For` and fast bitmap memory buffer access (`LockBits`).
 
-## Requirements
+### 🖼️ Advanced Texture & Normal Mapping
+- **UV Texture Mapping**: Bilinear interpolation mapping 2D bitmap textures across the parametric surface ($u, v \in [0, 1]$).
+- **Normal Mapping**: Bumpy surface micro-geometry simulation via tangent-space normal maps.
 
-- .NET 8.0 SDK or newer
-- Windows OS (due to Windows Forms dependency)
+---
 
-## Getting Started
+## 🛠️ Tech Stack & Architecture
 
-1. Clone the repository.
-2. Open `BezierSurface.sln` in Visual Studio 2022 or higher.
-3. Build the solution in Release mode for optimal performance.
-4. Run the `BezierSurface` project.
-5. Load control points from a text file to begin rendering (sample files included in the project directory if available).
+- **Language**: C# (.NET 9.0)
+- **Framework**: Windows Forms (WinForms)
+- **Memory**: Unsafe pointers and `BitmapData.Scan0` for zero-allocation rendering buffers
 
-## License
+### Solution Structure
+- `BezierSurface.Core`: Mathematical evaluation algorithms for Bézier surfaces, derivative evaluations, normal vector calculations, and mesh generation.
+- `BezierSurface.Presentation`: Triangle rasterization engine, scanline algorithm, shading pipeline, and lighting math.
+- `BezierSurface`: Main GUI application, interactive canvas, control panel bindings, and scene file loading.
+- `BezierSurface.CoreTests1`: Unit test suite for core mathematical evaluation algorithms.
 
-This project was developed for educational purposes at Warsaw University of Technology.
+---
+
+## 💻 Getting Started
+
+### Prerequisites
+
+- **Visual Studio 2022** (v17.12 or newer with .NET 9 SDK)
+- **Windows OS** (required for Windows Forms)
+
+### Running the Application
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/your-username/BezierSurface.git
+   cd BezierSurface
+   ```
+
+2. **Build and Run via Visual Studio**:
+   - Open `BezierSurface.sln`.
+   - Set configuration to **Release** for optimal parallel rasterization performance.
+   - Press **F5** to build and run.
+
+3. **Or run via .NET CLI**:
+   ```bash
+   dotnet run --project BezierSurface/BezierSurface.csproj
+   ```
+
+---
+
+## 📜 License
+
+This project is licensed under the [MIT License](LICENSE).
